@@ -1,24 +1,29 @@
-﻿namespace SQLiteMateoOrtega
+﻿using SQLiteMateoOrtega.Services;
+using SQLiteMateoOrtega.Interfaces;
+
+namespace SQLiteMateoOrtega
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        IContactoService _contactoService;
 
         public MainPage()
         {
             InitializeComponent();
+            _contactoService = new ContactoSQLiteAltoNivelServices();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void Guardado_clicked(object sender, EventArgs e)
         {
-            count++;
+            Nombre = Nombre.Text,
+            Telefono = Telefono.Text;
+            CorreoElectronico = CorreoElectronico.Text;
+            Direccion = Direccion.Text;
+            Empresa = Empresa.Text;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+
+
         }
     }
 
