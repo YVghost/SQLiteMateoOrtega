@@ -37,7 +37,22 @@ namespace SQLiteMateoOrtega.Services
 
         public Task<bool> EliminarContacto(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var contacto = _sqliteAsyncConnection.Table<Contacto>().FirstOrDefaultAsync(c => c.Id == id).Result;
+                if (contacto != null)
+                {
+                    _sqliteAsyncConnection.DeleteAsync(contacto).Wait();
+                    return Task.FromResult(true);
+                }
+                return Task.FromResult(false);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones, por ejemplo, registrar el error
+                Console.WriteLine($"Error al eliminar contacto: {ex.Message}");
+                return Task.FromResult(false);
+            }
         }
 
         public Async async Task Init()
@@ -48,6 +63,17 @@ namespace SQLiteMateoOrtega.Services
 
         public Task<bool> InsertarContacto(Contacto contacto)
         {
+            try
+            {
+                _sqliteAsyncConnection.InsertAsync(contacto).Wait();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones, por ejemplo, registrar el error
+                Console.WriteLine($"Error al insertar contacto: {ex.Message}");
+                return Task.FromResult(false);
+            }
             throw new NotImplementedException();
         }
     }
